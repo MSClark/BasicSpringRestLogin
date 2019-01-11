@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+	<form id="loginForm">
+		<label>Username</label>
+		<input type="text" name="username" />
+		<label>Password</label>
+		<input type="password" name="password" />
+	</form>
+	<button onclick="login()">Log In</button>
+	<script>
+	var jsonObj = {};
+	
+	function login(){		
+		var inputs = document.getElementById("loginForm").elements;
+		console.log(inputs);
+		for(i = 0; i < inputs.length; i++){
+			console.log(i);
+			console.log(inputs[i].getAttribute("name"));
+			if(inputs[i].getAttribute("name") === "username"){
+				jsonObj.username = inputs[i].value;
+			}
+			if(inputs[i].getAttribute("name") === "password"){
+				jsonObj.password = inputs[i].value;
+			}
+		}	
+		console.log(jsonObj);
+		
+		axios.post('/api/user/login', jsonObj)
+		.then(function (response){
+			if(response.data.success){
+				alert("Login Successful, redirecting...");
+				window.location = "/hello";
+			} else{
+				alert("Login Failed please check username and password");
+				console.log(response.data.error);
+			}
+		})
+	}
+		
+	</script>
+</body>
+</html>
